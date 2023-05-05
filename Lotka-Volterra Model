@@ -1,0 +1,46 @@
+# The below code allows us to define the model in R Studio
+
+predator.prey.lotka.volterra <- function(time, N0, params) {
+  N1 <- N0 [1]
+  N2 <- N0 [2]
+  with(as.list(params), {
+    dN1.dt <- N1*(r1-alpha12*N2)
+    dN2.dt <- N2*(alpha21*N1-d2)
+    return(list(c(dN1.dt, dN2.dt)))
+  })
+}
+
+
+params <- c(r1 = 0.5, d2 = 0.1, alpha12 = 0.6, alpha21 = 0.1)       # This sets the parameter values to fit the equation
+
+# initial conditions
+N0 <- c(1,1)                      # This creates the initial conditions
+
+
+t.values <- seq(0, 100)          # This gives us the time-steps 
+
+
+predator.prey.out <- ode(N0, t.values, predator.prey.lotka.volterra, params)       #This allows us to simulate the continuous time dynamics of the model 
+
+
+par(mfrow=c(1,1))
+matplot(predator.prey.out[,c(2,3)], type ='l', lty = 1, lwd = 2, ylab = 'Population Abundance', xlab = 'Time (Years)')
+
+legend('topleft', c('European Rabbit', 'Fox'), lty = 1, lwd = 2, col = c('black', 'red'))
+
+
+###########     Here is where we are adding a randomised environmental factor to the code above     ###### 
+
+set.seed(543)
+TT <- 50
+w <- matrix(0, 2, TT)       # This line allows us to create the matrix to store the env values
+w[1,] <- rnorm(TT,0,0.1)    # This creates the values mean = 0 and the SD = 0.1
+rho <- -0.8                 # Using the rho comman allows for a correlation between species
+
+for (t in 1:TT) {
+  w[2,t] <- w[1,t]*rho + sqrt(1-rho^2)*rnorm(1,0,0.1)
+}
+cor(t(w))
+matplot(t(w), type = 'l', lty = 1, lwd = 2, main = cor(t(w))[2], xlab = 'Time', ylab = 'Environmental Value, w[t]')
+
+plot(w[1,], w[2,], pch = 16, xlab = 'European Rabbit Environmental Response, w[1,t]', ylab = 'Fox Environmental Value, w[2,t')
