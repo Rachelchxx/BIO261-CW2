@@ -1,3 +1,5 @@
+#######  R Code for BIO261 CW2 Model Report #######  
+
 # The below code allows us to define the model in R Studio
 
 predator.prey.lotka.volterra <- function(time, N0, params) {
