@@ -45,4 +45,4 @@ for (t in 1:TT) {
 cor(t(w))
 matplot(t(w), type = 'l', lty = 1, lwd = 2, main = cor(t(w))[2], xlab = 'Time', ylab = 'Environmental Value, w[t]')
 
-plot(w[1,], w[2,], pch = 16, xlab = 'European Rabbit Environmental Response, w[1,t]', ylab = 'Fox Environmental Value, w[2,t')
+plot(w[1,], w[2,], pch = 16, xlab = 'European Rabbit Environmental Response, w[1,t]', ylab = 'Fox Environmental Value, w[2,t]')
